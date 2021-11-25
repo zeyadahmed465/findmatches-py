@@ -1,28 +1,27 @@
 from tkinter import *
 import random
-#from tkinter import messagebox
 import time
-import math
+
 
 
 
 root = Tk()
-root.geometry("500x620")
+level  = 6
+root.geometry("500x{}".format(level * 40 + 150))
+
+if level > 6:
+    level = 6
+elif level % 2:
+    level -=1
+
 
 
 global winner, matches, tries
 winner, tries = 0,0
-photo1 = PhotoImage(file="img/test1.png")
-photo2 = PhotoImage(file="img/test2.png")
-photo3 = PhotoImage(file="img/test3.png")
-photo1 = PhotoImage(file="img/test1.png")
-photo4 = PhotoImage(file="img/test4.png")
-photo5 = PhotoImage(file="img/test5.png")
-photo6 = PhotoImage(file="img/test6.png")
 back_photo = PhotoImage(file="img/back.png")
 
-
-matches = [photo1,photo2,photo3,photo4,photo5,photo6,photo1,photo2,photo3,photo4,photo5,photo6]
+matches = [PhotoImage(file=f"img/pic{i}.png") for i in range(1,level +1)] * 2
+#matches = [photo1,photo2,photo3,photo4,photo5,photo6]*2
 random.shuffle(matches)
 
 my_frame = Frame(root)
@@ -77,7 +76,6 @@ def win():
 #function for clicking buttons
 def button_click(b, number):
     global count, answer_list, answer_dict, winner, stop, tries
-
     if b["text"] == ' ' and count < 2 :
         b["image"] = matches[number]
 
@@ -94,7 +92,7 @@ def button_click(b, number):
         my_label4.config(text=f"tries : {tries}")
         keys = list(answer_dict.keys())
 
-        if matches[answer_list[0]] == matches[answer_list[1]] and len(keys) == 2:
+        if len(keys) == 2 and matches[answer_list[0]] == matches[answer_list[1]]:
             
             #disalbe the buttons
             for button in answer_dict: # each button will be the key which is the Button()
@@ -118,43 +116,37 @@ def button_click(b, number):
             
             
             #reset the incorrect buttons
-            def x():
+            def resetFor():
                 global answer_dict
                 for button in answer_dict:
                     button["image"] = back_photo
                 answer_dict = {}
-            if(len(keys) == 2):
-                dummyLabel.after(300, lambda: x())
+            if(len(keys) != 2):
+                resetFor()
+            elif(len(keys) == 2):
+                dummyLabel.after(300, lambda: resetFor())
 
 
 #define our buttons
-b0 = Button(my_frame, text=" ", font=("Helvetica", 20),image = back_photo, command=lambda: button_click(b0, 0), relief="groove")
-b1 = Button(my_frame, text=" ", font=("Helvetica", 20), image = back_photo, command=lambda: button_click(b1, 1), relief="groove")
-b2 = Button(my_frame, text=" ", font=("Helvetica", 20), image = back_photo, command=lambda: button_click(b2, 2), relief="groove")
-b3 = Button(my_frame, text=" ", font=("Helvetica", 20),image = back_photo, command=lambda: button_click(b3, 3), relief="groove")
-b4 = Button(my_frame, text=" ", font=("Helvetica", 20), image = back_photo, command=lambda: button_click(b4, 4), relief="groove")
-b5 = Button(my_frame, text=" ", font=("Helvetica", 20), image = back_photo, command=lambda: button_click(b5, 5), relief="groove")
-b6 = Button(my_frame, text=" ", font=("Helvetica", 20), image = back_photo, command=lambda: button_click(b6, 6), relief="groove")
-b7 = Button(my_frame, text=" ", font=("Helvetica", 20), image = back_photo, command=lambda: button_click(b7, 7), relief="groove")
-b8 = Button(my_frame, text=" ", font=("Helvetica", 20),image = back_photo, command=lambda: button_click(b8, 8), relief="groove")
-b9 = Button(my_frame, text=" ", font=("Helvetica", 20), image = back_photo, command=lambda: button_click(b9, 9), relief="groove")
-b10 = Button(my_frame, text=" ", font=("Helvetica", 20), image = back_photo, command=lambda: button_click(b10, 10), relief="groove")
-b11 = Button(my_frame, text=" ", font=("Helvetica", 20), image = back_photo, command=lambda: button_click(b11, 11), relief="groove")
+buttonList = [Button(my_frame, text=" ",
+                    font=("Helvetica", 20), image = back_photo, 
+                        relief="groove") for _ in range(level*2)]
 
-b0.grid(row=0, column=0)
-b1.grid(row=0, column=1)
-b2.grid(row=0, column=2)
-b3.grid(row=0, column=3)
 
-b4.grid(row=1, column=0)
-b5.grid(row=1, column=1)
-b6.grid(row=1, column=2)
-b7.grid(row=1, column=3)
+grid = [ {row:[col for col in range(4)] } for row in range(level//2)] #dividing by 2 to get row length
 
-b8.grid(row=2, column=0)
-b9.grid(row=2, column=1)
-b10.grid(row=2, column=2)
-b11.grid(row=2, column=3)
+#let level 6 -> matches length is 12
+#knowing that col length is 4 -> row length is 3
+
+#rowDic -> {0: [0,1,2,3]}
+for rowDic in grid:
+    for row,  value in rowDic.items():
+        for col in value:
+            #multiplying the row index by 4 to get next 4 elemnts in buttonList to be initialized
+            buttonList[row*4 + col].grid(row=row, column=col)
+            
+            
+            buttonList[row*4 + col].configure(command=lambda current =(row*4)+col: button_click(buttonList[current], current))
 
 my_label = Label(root, text="")
 my_label2 = Label(root, text="", bg="black", fg="white")
