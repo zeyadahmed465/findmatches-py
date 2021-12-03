@@ -16,7 +16,9 @@ elif level % 2:
 
 
 
+
 global winner, matches, tries
+
 winner, tries = 0,0
 back_photo = PhotoImage(file="img/back.png")
 
@@ -26,6 +28,17 @@ random.shuffle(matches)
 
 my_frame = Frame(root)
 my_frame.pack(pady=10)
+
+
+
+
+#define our buttons
+buttonList = [Button(my_frame, text=" ",
+                    font=("Helvetica", 20), image = back_photo, 
+                        relief="groove") for _ in range(level*2)]
+
+
+grid = [ {row:[col for col in range(4)] } for row in range(level//2)] #dividing by 2 to get row length
 
 #define our winner counter
 
@@ -40,16 +53,14 @@ time1 = int(time.strftime("%H"))*3600 + int(time.strftime("%M")) *60 + int(time.
 #reset the game
 def reset():
     global matches, winner, stop, time1, tries
-    winner = 0
+    winner =0
     tries = 0
-    matches = [photo1,photo2,photo3,photo4,photo5,photo6,photo1,photo2,photo3,photo4,photo5,photo6]
-    random.shuffle(matches)
     my_label2.config(text="00:00")
     my_label3.config(text="correct : 0")
     my_label4.config(text="tries : 0")
     #reset our tiles 
-    button_list = [b0,b1,b2,b3,b4,b5,b6,b7,b8,b9,b10,b11]
-    for button in button_list:
+    
+    for button in buttonList:
         button.config(image= back_photo, state="normal")
     time1 = int(time.strftime("%H"))*3600 + int(time.strftime("%M")) *60 + int(time.strftime("%S"))
     stop = 0
@@ -127,13 +138,6 @@ def button_click(b, number):
                 dummyLabel.after(300, lambda: resetFor())
 
 
-#define our buttons
-buttonList = [Button(my_frame, text=" ",
-                    font=("Helvetica", 20), image = back_photo, 
-                        relief="groove") for _ in range(level*2)]
-
-
-grid = [ {row:[col for col in range(4)] } for row in range(level//2)] #dividing by 2 to get row length
 
 #let level 6 -> matches length is 12
 #knowing that col length is 4 -> row length is 3
@@ -169,7 +173,7 @@ root.config(menu=my_menu)
 #create an option dropdown menu
 option_menu = Menu(my_menu, tearoff=False)
 my_menu.add_cascade(label="options", menu=option_menu)
-my_menu.add_command(label="Reset game", command=reset)
+my_menu.add_command(label="Reset game",command=reset)
 my_menu.add_separator()
 my_menu.add_command(label="Exit game", command=root.quit)
 
