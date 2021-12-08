@@ -26,7 +26,7 @@ def dropTable(table):
         initDB.cursor.execute("DROP TABLE {}".format(table))
         initDB.connection.commit()
     except initDB.Error as e:
-        print(e)
+        pass
 
 
 def insertIntoScore(name,time, level):
@@ -34,7 +34,6 @@ def insertIntoScore(name,time, level):
     sql = '''INSERT INTO scores(name, time, level) VALUES (%s,%s, %s)
     ON DUPLICATE KEY UPDATE name = %s, time = %s, level =%s'''
     val = (name, time, level)*2
-    print(val)
     try:
         initDB.cursor.execute(sql, val)
         initDB.connection.commit()
@@ -57,6 +56,4 @@ def seeder(records = 1):
         initDB.cursor.executemany(sql, values)
         initDB.connection.commit()
     
-    
 
-    
