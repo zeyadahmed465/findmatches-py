@@ -1,8 +1,12 @@
 import initDB
 from initDB import dbConstant
 
-initDB.cursor.execute("USE {}".format(dbConstant.dbName))
-initDB.cursor.execute(dbConstant.sqlCreateTable)
+if(dbConstant.getIsDebug()):
+    initDB.cursor.execute("USE {}".format(dbConstant.dbName))
+    initDB.cursor.execute(dbConstant.mysqlCreateTable)
+
+else:
+    initDB.cursor.execute(dbConstant.postsqlCreateTable)
 
 def tryIfConnected(funToLoad):
     try:
