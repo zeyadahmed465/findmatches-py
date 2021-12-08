@@ -15,21 +15,21 @@ def tryIfConnected(funToLoad):
         else:
             print("ERROR")
             exit()
-    except initDB.Error as e:
+    except Exception as e:
         print(e)
 
 def buildQuery(query):
     try:
         initDB.cursor.execute(query)
         initDB.connection.commit()
-    except initDB.Error as e:
+    except Exception as e:
         print(e)
 
 def dropTable(table):
     try:
         initDB.cursor.execute("DROP TABLE {}".format(table))
         initDB.connection.commit()
-    except initDB.Error as e:
+    except Exception as e:
         pass
 
 
@@ -41,7 +41,7 @@ def insertIntoScore(name,time, level):
     try:
         initDB.cursor.execute(sql, val)
         initDB.connection.commit()
-    except initDB.Error as e:
+    except Exception as e:
         return e
 
 def getLevel(level = 1):
