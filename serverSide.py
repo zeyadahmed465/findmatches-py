@@ -17,8 +17,7 @@ async def root(level:int,req:Request, res:Response):
 @app.post("/")
 async def store(data: Dict[str, Any],req:Request, res:Response):
     try:
-        Score.storeScore(data)
-        return "Score Stored Succesfully"
+        return Score.storeScore(data)
     except Exception as e:
         res.status_code = 404
         return e

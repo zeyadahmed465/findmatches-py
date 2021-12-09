@@ -5,6 +5,8 @@ if(dbConstant.getIsDebug()):
     from mysql.connector import Error
 else:
     import psycopg2
+    from psycopg2 import Error
+
 
 
 if(not dbConstant.getIsDebug()):
