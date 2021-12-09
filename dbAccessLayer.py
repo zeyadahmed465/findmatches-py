@@ -42,8 +42,8 @@ def insertIntoScore(name,time, level):
         sql = '''
             INSERT INTO scores (name, time, level) 
             VALUES (%s,%s, %s)
-            ON CONFLICT (name) DO UPDATE 
-            SET (time, level) = (EXCLUDED.time, EXCLUDED.level)
+            ON CONFLICT (name, level) DO UPDATE 
+            SET time = EXCLUDED.time
             '''
         val = (name, time, level)
     try:

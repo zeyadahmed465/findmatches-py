@@ -11,7 +11,8 @@ def root():
     return f"Running {mode}"
 
 @app.get("/{level}")
-async def root(level:int,req:Request, res:Response):    
+async def root(level:int,req:Request, res:Response):
+    from dbAccessLayer import seeder
     return Score.getLevel(level)
 
 @app.post("/")

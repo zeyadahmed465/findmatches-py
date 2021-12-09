@@ -34,12 +34,12 @@ Create Table IF NOT EXISTS scores (
 postsqlCreateTable = '''
 Create Table IF NOT EXISTS scores (
     id serial  NOT NULL,
-    name VARCHAR(255) unique NOT NULL,
+    name VARCHAR(255) NOT NULL,
     level INTEGER DEFAULT 1,
     time DECIMAL NOT NULL,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 
-    CONSTRAINT unique_name_level unique(name, level),
+    UNIQUE(name, level),
     PRIMARY KEY (id)
 )
 '''
