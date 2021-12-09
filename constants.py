@@ -1,9 +1,9 @@
-__isDebug = True
+__isDebug = False
 
 if __isDebug:
     url = "http://localhost:8000"
 else:
-    url = ""
+    url = "https://find-matches.herokuapp.com"
     
 __level = 0
 def getLevel():
