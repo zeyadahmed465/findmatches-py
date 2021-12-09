@@ -8,8 +8,8 @@ level = getLevel()
 root = Tk()
 root.geometry("500x{}".format(level * 40 + 150))
 
-if level > 10:
-    level = 10
+if level > 14:
+    level = 14
 elif level % 2:
     level -=1
 
@@ -22,7 +22,6 @@ winner, tries = 0,0
 back_photo = PhotoImage(file="img/back.png")
 
 matches = [PhotoImage(file=f"img/pic{i}.png") for i in range(1,level +1)] * 2
-#matches = [photo1,photo2,photo3,photo4,photo5,photo6]*2
 random.shuffle(matches)
 
 my_frame = Frame(root)
