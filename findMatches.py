@@ -37,7 +37,7 @@ buttonList = [Button(my_frame, text=" ",
                         relief="groove") for _ in range(level*2)]
 
 
-grid = [ {row:[col for col in range(4)] } for row in range(level//2)] #dividing by 2 to get row length
+rows = level // 2 
 
 #define our winner counter
 
@@ -141,15 +141,13 @@ def button_click(b, number):
 #let level 6 -> matches length is 12
 #knowing that col length is 4 -> row length is 3
 
-#rowDic -> {0: [0,1,2,3]}
-for rowDic in grid:
-    for row,  value in rowDic.items():
-        for col in value:
-            #multiplying the row index by 4 to get next 4 elemnts in buttonList to be initialized
-            buttonList[row*4 + col].grid(row=row, column=col)
-            
-            
-            buttonList[row*4 + col].configure(command=lambda current =(row*4)+col: button_click(buttonList[current], current))
+for row in range(rows):
+    for col in range(4):
+        #multiplying the row index by 4 to get next 4 elemnts in buttonList to be initialized
+        current = row*4 + col
+        buttonList[current].grid(row=row, column=col)
+        buttonList[current].configure(command=
+                                        lambda current = current: button_click(buttonList[current], current))
 
 my_label = Label(root, text="")
 my_label2 = Label(root, text="", bg="black", fg="white")
