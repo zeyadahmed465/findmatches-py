@@ -2,7 +2,6 @@ from tkinter import *
 from Score import Score
 
 results = Score.getLevel(1)
-print(len(results))
 root = Tk()
 
 root.geometry("400x500")
