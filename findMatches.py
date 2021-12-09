@@ -8,8 +8,8 @@ level = getLevel()
 root = Tk()
 root.geometry("500x{}".format(level * 40 + 150))
 
-if level > 6:
-    level = 6
+if level > 10:
+    level = 10
 elif level % 2:
     level -=1
 
