@@ -18,6 +18,14 @@ elif level % 2:
 
 global winner, matches, tries
 
+def score_calc():
+    global winner, tries,m , s
+    return  int( 1000 * level * winner / (tries * (s + (m)*60)) )
+
+def time_taken():
+    global m, s
+    return (s + (m)*60)
+
 winner, tries = 0,0
 back_photo = PhotoImage(file="img/back.png")
 
@@ -69,7 +77,7 @@ def reset():
 def clock():
     if stop!= 0:
         return 
-    global time1
+    global time1, m, s
     current_time = int(time.strftime("%H"))*3600 + int(time.strftime("%M")) *60 + int(time.strftime("%S"))
     current_time = current_time - time1
     s = current_time % 60
@@ -79,6 +87,7 @@ def clock():
 
 #creating the winner function
 def win():
+    
     my_label.config(text="congrates! you win!!")
     
 
@@ -113,9 +122,12 @@ def button_click(b, number):
             #increment our winner
             winner += 1 
             my_label3.config(text=f"correct : {winner}" )
-            if winner == 6:
-                win()
+            if winner == len(buttonList)/2:
                 stop = 1
+                clock()
+                from popUp import pop
+                pop()
+                #win()
         else:
             #my_label.config(text="try again!")
             answer_list = []

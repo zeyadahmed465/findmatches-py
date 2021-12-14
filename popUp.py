@@ -3,11 +3,24 @@ import tkinter
 from tkinter import *
 from tkinter import messagebox
 
-root=Tk()
-root.title("calculator")
+from Score import Score
+
+
+#root=Tk()
+#root.title("calculator")
+
 def sent():
-    pass
+    global e
+    from Score import Score
+    from constants import getLevel
+    from findMatches import time_taken
+    name = e.get()
+    score1 = Score(name,time_taken(),getLevel())
+    score1.storeScore()
+
+
 def yes(yesB, noB, l):
+    global e
     yesB.destroy()
     noB.destroy()
     noB.destroy()
@@ -23,8 +36,12 @@ def no() :
     top.destroy()
     root.destroy()
 
+
+    
+
 def pop():
-    score=1000-500 #must be modified
+    from findMatches import score_calc
+    score= score_calc()
     global top
     global yes_button
     global no_button
@@ -44,8 +61,8 @@ def pop():
 
 
 
-b1=Button(root,text="click",command=pop)
-b1.pack()
+# b1=Button(root,text="click",command=pop)
+# b1.pack()
 
 
-mainloop()
+#mainloop()
