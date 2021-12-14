@@ -11,10 +11,10 @@ if(__debugFlag):
     dbUser="root"
     dbPassword="admin"
 else:
-    dbName = "d42memv3lblact"
-    dbHost="ec2-54-229-68-88.eu-west-1.compute.amazonaws.com"
-    dbUser="wxrcljxtqhylxb"
-    dbPassword="6637b00d297ea79db3e2d67e0adde0e7d844a94f05ec36ab6af982f8f2138be9"
+    dbName = "dd2qgtr65ivri"
+    dbHost="ec2-52-49-23-139.eu-west-1.compute.amazonaws.com"
+    dbUser="ogocxhnososutv"
+    dbPassword="0290e224773b8a1c51bc76158f2a776c9ef99926447e85ba0dd6925d89fc081a"
 
 
 
