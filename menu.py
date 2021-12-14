@@ -19,12 +19,12 @@ def score():
     pass    
 
 
-open=Button(menu,command=lambda: open_game(6),text='Letꞌs Start 6',width=40,height=2,borderwidth=0)
+open=Button(menu,command=lambda: open_game(6),text="Let's Start 6",width=40,height=2,borderwidth=0)
 open.place(x=300,y=140)
-open=Button(menu,command=lambda: open_game(4),text='Letꞌs Start 4',width=40,height=2,borderwidth=0)
+open=Button(menu,command=lambda: open_game(4),text="Let's Start 4",width=40,height=2,borderwidth=0)
 open.place(x=300,y=200)
 
-scores=Button(menu,command=score,text='Playerꞌs Score',width=40,height=2,borderwidth=0)
+scores=Button(menu,command=score,text="Player's Score",width=40,height=2,borderwidth=0)
 scores.place(x=300,y=240)
 
 close=Button(menu,command=dele,text='Exit Game',width=40,height=2,borderwidth=0)
