@@ -18,6 +18,11 @@ elif level % 2:
 
 global winner, matches, tries
 
+
+def recent_scores(info):
+    scores_list.insert(END, info)
+    
+
 def score_calc():
     global winner, tries,m , s
     return  int( 1000 * level * winner / (tries * (s + (m)*60)) )
@@ -61,14 +66,15 @@ def reset():
     global matches, winner, stop, time1, tries
     winner =0
     tries = 0
-    my_label2.config(text="00:00")
-    my_label3.config(text="correct : 0")
-    my_label4.config(text="tries : 0")
+    time_label.config(text="00:00")
+    correct_label.config(text="correct : 0")
+    tries_label.config(text="tries : 0")
     #reset our tiles 
     
     for button in buttonList:
         button.config(image= back_photo, state="normal")
     time1 = int(time.strftime("%H"))*3600 + int(time.strftime("%M")) *60 + int(time.strftime("%S"))
+    random.shuffle(matches)
     stop = 0
     clock()
     
@@ -82,8 +88,8 @@ def clock():
     current_time = current_time - time1
     s = current_time % 60
     m = current_time // 60
-    my_label2.config(text="{:02d}:{:02d}".format(m,s))
-    my_label2.after(1000, clock)
+    time_label.config(text="{:02d}:{:02d}".format(m,s))
+    time_label.after(1000, clock)
 
 #creating the winner function
 def win():
@@ -107,7 +113,7 @@ def button_click(b, number):
     #start to determine correct or not
     if len(answer_list) == 2:
         tries += 1
-        my_label4.config(text=f"tries : {tries}")
+        tries_label.config(text=f"tries : {tries}")
         keys = list(answer_dict.keys())
 
         if len(keys) == 2 and matches[answer_list[0]] == matches[answer_list[1]]:
@@ -121,7 +127,7 @@ def button_click(b, number):
             count = 0
             #increment our winner
             winner += 1 
-            my_label3.config(text=f"correct : {winner}" )
+            correct_label.config(text=f"correct : {winner}" )
             if winner == len(buttonList)/2:
                 stop = 1
                 clock()
@@ -160,18 +166,30 @@ for row in range(rows):
         buttonList[current].configure(command=
                                         lambda current = current: button_click(buttonList[current], current))
 
-my_label = Label(root, text="")
-my_label2 = Label(root, text="", bg="black", fg="white")
-my_label2.after(0, clock)
-my_label2.pack(pady=5)
+left_frame = Frame(root)
+left_frame.pack(side=LEFT, padx=100, pady=10)
+
+right_frame = Frame(root)
+right_frame.pack(side=RIGHT, padx=50, pady=10)
+
+time_label = Label(left_frame, text="", bg="black", fg="white")
+time_label.after(0, clock)
+time_label.pack(pady=5)
 
 #number of coorect tries label
-my_label4 = Label(root, text="tries : 0", fg="white", bg="black")
-my_label4.pack(pady=5)
-my_label3 = Label(root, text="correct : 0", fg="white", bg="black")
-my_label3.pack(pady=0)
-dummyLabel = Label(root, text= "")
+tries_label = Label(left_frame, text="tries : 0", fg="white", bg="black")
+tries_label.pack(pady=5)
+correct_label = Label(left_frame, text="correct : 0", fg="white", bg="black")
+correct_label.pack(pady=0)
+
+dummyLabel = Label(left_frame, text= "")
 dummyLabel.pack()
+
+scores_label = Label(right_frame, text="Recent scores : ")
+scores_label.pack( )
+
+scores_list = Listbox(right_frame)
+scores_list.pack(padx=25)
 #number of tries
 
 #create a menu
