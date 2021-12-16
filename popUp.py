@@ -2,6 +2,7 @@
 import tkinter
 from tkinter import *
 from tkinter import messagebox
+from findMatches import score_calc, recent_scores
 
 from Score import Score
 
@@ -17,6 +18,9 @@ def sent():
     name = e.get()
     score1 = Score(name,time_taken(),getLevel())
     score1.storeScore()
+    info = name + "   : " + str(score_calc())
+    recent_scores(info)
+    top.destroy()
 
 
 def yes(yesB, noB, l):
@@ -32,15 +36,16 @@ def yes(yesB, noB, l):
     submit=Button(top,text="submit",font=("Arial",20),command=sent)
     submit.grid(row=6,column=1,columnspan=2,padx=10,pady=5)
 
+
 def no() :
     top.destroy()
-    root.destroy()
+    #root.destroy()
 
 
     
 
 def pop():
-    from findMatches import score_calc
+    
     score= score_calc()
     global top
     global yes_button
