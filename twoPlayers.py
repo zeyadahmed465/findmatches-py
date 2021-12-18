@@ -1,37 +1,20 @@
 from tkinter import *
-from constants import getLevel
 import random
 import time
+from tkinter import messagebox
 
-level = getLevel()
+level = 6
 
 root = Tk()
 root.geometry("500x{}".format(level * 40 + 150))
 
-if level > 14:
-    level = 14
-elif level % 2:
-    level -=1
 
 
+global players, matches, currentPlayer
+players = [0, 0]
+currentPlayer = 0
 
 
-global winner, matches, tries
-
-
-#def recent_scores(info):
-#    scores_list.insert(END, info)
-    
-
-def score_calc():
-    global winner, tries,m , s
-    return  int( 1000 * level * winner / (tries * (s + (m)*60)) )
-
-def time_taken():
-    global m, s
-    return (s + (m)*60)
-
-winner, tries = 0,0
 back_photo = PhotoImage(file="img/back.png")
 
 matches = [PhotoImage(file=f"img/pic{i}.png") for i in range(1,level +1)] * 2
@@ -63,13 +46,14 @@ m,s,stop = 0,0,0
 time1 = int(time.strftime("%H"))*3600 + int(time.strftime("%M")) *60 + int(time.strftime("%S"))
 #reset the game
 def reset():
-    global matches, winner, stop, time1, tries
-    winner =0
-    tries = 0
+    global matches,stop, time1, players, currentPlayer
+    
     time_label.config(text="00:00")
-    correct_label.config(text="correct : 0")
-    tries_label.config(text="tries : 0")
-    #reset our tiles 
+    correct_label1.config(text="player 1 : 0")
+    correct_label2.config(text="player 2 : 0")
+    players = [0, 0]
+    currentPlayer = 0
+    
     
     for button in buttonList:
         button.config(image= back_photo, state="normal")
@@ -91,12 +75,12 @@ def clock():
     time_label.config(text="{:02d}:{:02d}".format(m,s))
     time_label.after(1000, clock)
 
-#creating the winner function
-    
 
 #function for clicking buttons
 def button_click(b, number):
-    global count, answer_list, answer_dict, winner, stop, tries
+    global count, answer_list, answer_dict, winner, stop, players, currentPlayer
+    keep_playing = False
+
     if b["text"] == ' ' and count < 2 :
         b["image"] = matches[number]
 
@@ -109,11 +93,12 @@ def button_click(b, number):
         count += 1
     #start to determine correct or not
     if len(answer_list) == 2:
-        tries += 1
-        tries_label.config(text=f"tries : {tries}")
+
+        
         keys = list(answer_dict.keys())
 
         if len(keys) == 2 and matches[answer_list[0]] == matches[answer_list[1]]:
+            keep_playing = True        
             
             #disalbe the buttons
             for button in answer_dict: # each button will be the key which is the Button()
@@ -123,20 +108,31 @@ def button_click(b, number):
             answer_list = []
             count = 0
             #increment our winner
-            winner += 1 
-            correct_label.config(text=f"correct : {winner}" )
-            if winner == len(buttonList)/2:
+            players[currentPlayer] += 1 
+
+            if  (players[0] + players[1]) == len(buttonList)/2:
                 stop = 1
                 clock()
-                from popUp import pop
-                pop()
+
+                correct_label1.config(text=f"player 1 : {players[0]}")
+                correct_label2.config(text=f"player 2 : {players[1]}")
+
+                if players[0] > players[1] :
+                    info = "player 1 has won"
+                elif players[1] > players[0]:
+                    info = "player 2 has won"
+                else:
+                    info = "Draw!"
+
+                messagebox.showinfo("Infos", info)
+
+
+                
                 #win()
         else:
             #my_label.config(text="try again!")
             answer_list = []
             count = 0
-            
-            #messagebox.showinfo("Incorrect!", "Incorrect")
             
             
             #reset the incorrect buttons
@@ -149,6 +145,19 @@ def button_click(b, number):
                 resetFor()
             elif(len(keys) == 2):
                 dummyLabel.after(300, lambda: resetFor())
+
+        if not keep_playing :
+            currentPlayer = 0 if currentPlayer else 1
+        
+        if  currentPlayer : 
+            correct_label1.config(text=f"player 1 : {players[0]}", bg="black" )
+            correct_label2.config(text=f"player 2 : {players[1]}", bg="red" )
+            
+        else:
+            correct_label1.config(text=f"player 1 : {players[0]}", bg="red" )
+            correct_label2.config(text=f"player 2 : {players[1]}", bg="black" )
+                
+    
 
 
 
@@ -169,10 +178,12 @@ time_label.after(0, clock)
 time_label.pack(pady=5)
 
 #number of coorect tries label
-tries_label = Label(root, text="tries : 0", fg="white", bg="black")
-tries_label.pack(pady=5)
-correct_label = Label(root, text="correct : 0", fg="white", bg="black")
-correct_label.pack(pady=0)
+
+correct_label1 = Label(root, text="player 1 : 0", fg="white", bg="red")
+correct_label1.pack(pady=10)
+
+correct_label2 = Label(root, text="player 2 : 0", fg="white", bg="black")
+correct_label2.pack(pady=0)
 
 dummyLabel = Label(root, text= "")
 dummyLabel.pack()

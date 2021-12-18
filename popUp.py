@@ -2,7 +2,7 @@
 import tkinter
 from tkinter import *
 from tkinter import messagebox
-from findMatches import score_calc, recent_scores
+from findMatches import score_calc, reset
 
 from Score import Score
 
@@ -18,9 +18,12 @@ def sent():
     name = e.get()
     score1 = Score(name,time_taken(),getLevel())
     score1.storeScore()
-    info = name + "   : " + str(score_calc())
-    recent_scores(info)
+    messagebox.showinfo("Message", "Your result has been saved!")
     top.destroy()
+    reset()
+    
+    
+    
 
 
 def yes(yesB, noB, l):
