@@ -7,6 +7,7 @@ level = getLevel()
 
 root = Tk()
 root.geometry("500x{}".format(level * 40 + 150))
+root.config(background="#102027")
 
 if level > 14:
     level = 14
@@ -62,6 +63,9 @@ answer_dict = {}
 m,s,stop = 0,0,0
 time1 = int(time.strftime("%H"))*3600 + int(time.strftime("%M")) *60 + int(time.strftime("%S"))
 #reset the game
+def retrun2menu():
+    root.destroy()
+    import menu
 def reset():
     global matches, winner, stop, time1, tries
     winner =0
@@ -174,7 +178,7 @@ tries_label.pack(pady=5)
 correct_label = Label(root, text="correct : 0", fg="white", bg="black")
 correct_label.pack(pady=0)
 
-dummyLabel = Label(root, text= "")
+dummyLabel = Label(root, text= "",bg="#102027")
 dummyLabel.pack()
 
 
@@ -184,10 +188,11 @@ root.config(menu=my_menu)
 
 #create an option dropdown menu
 option_menu = Menu(my_menu, tearoff=False)
-my_menu.add_cascade(label="options", menu=option_menu)
+my_menu.add_cascade(label="Options", menu=option_menu)
 my_menu.add_command(label="Reset game",command=reset)
 my_menu.add_separator()
-my_menu.add_command(label="Exit game", command=root.quit)
+my_menu.add_command(label="Menu",command=retrun2menu)
+my_menu.add_command(label="Exit game", command=root.destroy)
 
 
 root.mainloop()
