@@ -42,6 +42,7 @@ def yes(yesB, noB, l):
 
 def no() :
     top.destroy()
+    reset()
     #root.destroy()
 
 
